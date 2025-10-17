@@ -1,0 +1,10 @@
+services:
+  redis:
+    image: redis/redis-stack:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+      - "8001:8001"
+    environment:
+      # Configure Redis with 2GB memory limit and LRU eviction policy for all keys
+      - REDIS_ARGS=--maxmemory 2gb --maxmemory-policy allkeys-lru
