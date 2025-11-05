@@ -43,6 +43,8 @@ class Metrics(BaseModel):
     average_latency: float
     average_cost: float
     accuracy: float
+    macro_f1_score: float
+    micro_f1_score: float
     router_match: float  # for semantic router architecture
 
 

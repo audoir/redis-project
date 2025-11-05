@@ -8,6 +8,8 @@ from config import TOTAL_ARTICLES
 from create_datasets import create_datasets, get_article_batches
 import os
 from file_utils import save_json
+from metrics_utils import calculate_f1_scores
+
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"  # disable parallelism for tokenizers
 
@@ -52,22 +54,31 @@ async def create_with_router_metrics(datasets: Datasets) -> Metrics:
     total_cost = 0
     total_correct = 0
     total_router_match = 0
+    true_labels = []
+    predicted_labels = []
     article_batches = get_article_batches(datasets.test)
 
     for batch in article_batches:
         results_batch = await process_batch(router, batch)
-        for results in results_batch:
+        for i, results in enumerate(results_batch):
             total_latency += results.latency
             total_cost += results.cost
             total_correct += 1 if results.correct else 0
             total_router_match += 1 if results.router_match else 0
+            true_labels.append(batch[i].topic)
+            predicted_labels.append(results.topic)
+
             print(results)
         print()
+
+    macro_f1, micro_f1 = calculate_f1_scores(true_labels, predicted_labels)
 
     return Metrics(
         average_latency=total_latency / TOTAL_ARTICLES,
         average_cost=total_cost / TOTAL_ARTICLES,
         accuracy=total_correct / TOTAL_ARTICLES,
+        macro_f1_score=macro_f1,
+        micro_f1_score=micro_f1,
         router_match=total_router_match / TOTAL_ARTICLES,
     )
 

@@ -26,18 +26,28 @@ def compare_results():
     accuracy_improvement = calculate_improvement(
         baseline_metrics.accuracy, router_metrics.accuracy
     )
+    macro_f1_improvement = calculate_improvement(
+        baseline_metrics.macro_f1_score, router_metrics.macro_f1_score
+    )
+    micro_f1_improvement = calculate_improvement(
+        baseline_metrics.micro_f1_score, router_metrics.micro_f1_score
+    )
 
     comparison_output = f"""Baseline Results using {OPENAI_MODEL}:
 Average Latency: {baseline_metrics.average_latency:.3f}s, Average Cost: ${baseline_metrics.average_cost:.2e}, Accuracy: {baseline_metrics.accuracy * 100:.0f}%
+Macro F1: {baseline_metrics.macro_f1_score:.3f}, Micro F1: {baseline_metrics.micro_f1_score:.3f}
 
 With Router Results:
 Average Latency: {router_metrics.average_latency:.3f}s, Average Cost: ${router_metrics.average_cost:.2e}, Accuracy: {router_metrics.accuracy * 100:.0f}%
+Macro F1: {router_metrics.macro_f1_score:.3f}, Micro F1: {router_metrics.micro_f1_score:.3f}
 Router Match: {router_metrics.router_match * 100:.0f}%
 
 Percentage Improvements:
 Latency: {latency_improvement:.2f}%
 Cost: {cost_improvement:.2f}%
 Accuracy: {accuracy_improvement:.2f}%
+Macro F1: {macro_f1_improvement:.2f}%
+Micro F1: {micro_f1_improvement:.2f}%
 
 For 100K articles:
 Latency: {((router_metrics.average_latency - baseline_metrics.average_latency) * 100000 / 3600):.2f}h
