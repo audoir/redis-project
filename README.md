@@ -38,6 +38,15 @@ To install UV, run:
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
+## Set up environment variables
+
+Create a .env file to store the environment variables. The .env file should contain the following variables:
+
+```bash
+DATASET_PATH="<path_to_labelled_dataset (BBC News Train.csv)>"
+OPENAI_API_KEY="<your_openai_api_key>"
+```
+
 ## Run the baseline and with router, and compare the results
 
 Run the baseline and save the output to a file.
