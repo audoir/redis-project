@@ -1,4 +1,5 @@
-venv
 csv
 .env
 output
+.venv
+__pycache__

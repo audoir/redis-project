@@ -1,5 +1,0 @@
-redisvl
-numpy<2.0
-sentence-transformers
-python-dotenv
-pydantic-ai-slim[openai]
